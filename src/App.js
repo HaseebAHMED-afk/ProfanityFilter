@@ -32,6 +32,7 @@ const App = () => {
         setCount(foundSwears.length)
     } else {
         setApproval(true)
+        setCount(0)
     }
 }
 
