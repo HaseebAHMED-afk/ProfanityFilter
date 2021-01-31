@@ -11,20 +11,14 @@ let swear = [
 'bastard',
 'bitch',
 'bollocks',
-'brotherfucker',
 'bugger',
 'bullshit',
-'clit',
 'crap',
-'cunt',
 'damn',
-'effing',
-'fatherfucker',
 'frigger',
-'fuck'
 ]
 
-const App = React.memo(() => {
+const App = () => {
   let [count , setCount] = React.useState(0)
   let [approval , setApproval] = React.useState(false)
   let [text , setText] = React.useState('')
@@ -32,9 +26,14 @@ const App = React.memo(() => {
 
   
   const bogusCheck = (text) =>{
-    let textArray = text.split(' ')
-    console.log(textArray);
-  }
+    const foundSwears = swear.filter(word => text.includes(word));
+
+    if(foundSwears.length){
+        setCount(foundSwears.length)
+    } else {
+        setApproval(true)
+    }
+}
 
   return (
     <div className="App">
@@ -42,10 +41,14 @@ const App = React.memo(() => {
       <p>Enter a sentence below and click the button below:</p>
       <textarea cols="30" rows='10' value={text} onChange={e => setText(e.target.value) } />
       <br />
-      <button onClick={bogusCheck(text)} >Profanity Check</button>
+      {
+        approval === true ? <button>Submit</button> : <button onClick={() => bogusCheck(text)} >Profanity Check</button>
+      }
+      {
+        count === 0 ? null : <p>Your sentence contains {count} counts of profanity</p>
+      }
     </div>
 
   );
 }
-)
 export default App;
